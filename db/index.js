@@ -7,6 +7,12 @@ var connection = mysql.createConnection({
   database: 'hrlax44students'
 });
 
-connection.connect();
+connection.connect(err => {
+  if (err) {
+    console.log('Connection unsuccessful')
+  } else {
+    console.log('Connection successful!')
+  }
+});
 
 module.exports = connection;

@@ -3,65 +3,74 @@ import axios from 'axios';
 import List from './List.jsx';
 import Add from './Add.jsx';
 import Random from './Random.jsx';
+
 export default class App extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props)
     this.state = {
       page: 'home',
-      studentlist: []
+      studentlist : []
     }
     this.getStudents = this.getStudents.bind(this);
-    this.changePage = this.changePage.bind(this);
+    this.changepage = this.changepage.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(){
+    // used to store all students on our front end when the application runs
     this.getStudents()
+
+
   }
 
-  getStudents() {
+  getStudents(){
+    // Todo: Add your code here to retrieve all students from the database
     axios.get(`/api/students`)
-      .then(({ data }) => {
+      .then(response => {
         this.setState({
-          studentlist: data
+          studentlist: response.data
         })
       })
-      .catch((err) => console.error(err))
+      .catch(err => {
+        console.log(err)
+      })
   }
 
-  changePage(e) {
+  changepage(e){
+    // Todo: Add your logic to "change pages" here on button click
     this.setState({
       page: e.target.value
     })
+
   }
 
   render() {
-    if (this.state.page === 'add') {
+    if (this.state.page === 'add'){
       return (
         <div>
-          <button value='home' onClick={this.changePage}>Back</button>
-          <Add getStudents={this.getStudents} />
+          <Add />
+          <button value='home' onClick={this.changepage}>Back</button>
         </div>
       )
-    } else if (this.state.page === 'list') {
+    } else if (this.state.page === 'list'){
       return (
         <div>
-          <button value='home' onClick={this.changePage}>Back</button>
-          <List students={this.state.studentlist} getStudents={this.getStudents} />
+          <List studentlist={this.state.studentlist} getStudents={this.getStudents}  />
+          <button value='home' onClick={this.changepage}>Back</button>
         </div>
       )
-    } else if (this.state.page === 'random') {
+    } else if (this.state.page === 'random'){
       return (
         <div>
-          <button value='home' onClick={this.changePage}>Back</button>
-          <Random students={this.state.studentlist} />
+          <Random students={this.state.studentlist}/>
+          <button value='home' onClick={this.changepage}>Back</button>
         </div>
       )
     } else {
       return (
         <div>
-          <button value='add' onClick={this.changePage}>Add Student</button>
-          <button value='list' onClick={this.changePage}>List Students</button>
-          <button value='random' onClick={this.changePage}>Random Student</button>
+          <button value='add' onClick={this.changepage}>Add Student</button>
+          <button value='list' onClick={this.changepage}>List Students</button>
+          <button value='random' onClick={this.changepage}>Random Student</button>
         </div>
       )
     }

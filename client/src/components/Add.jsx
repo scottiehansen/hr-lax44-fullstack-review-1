@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+
 export default class Add extends React.Component {
   constructor(props){
     super(props)
@@ -12,27 +13,26 @@ export default class Add extends React.Component {
   }
 
   changeHandler(e){
+    // Todo: Add your code here to handle the data the client inputs
     this.setState({
       [e.target.name]: e.target.value
     })
-
   }
 
   handleSubmit(e){
+    // Todo: Add your code here to handle the API requests to add a student and image
     e.preventDefault();
-    e.target.reset();
 
     axios.post(`/api/students`, {
-      "name" : this.state.name
+      name: this.state.name
     })
     .then(() => {
-      axios.post(`/api/images`, {
-        "imgurl": this.state.imgurl
+      axios.post('/api/images', {
+        image: this.state.imgurl
       })
     })
-    .then(() => this.props.getStudents())
-    .then(() => alert('New student posted!'))
-    .catch((err) => console.error(err))
+    .then(() => alert('Student has been added to the database!'))
+    .catch(err => console.log(err))
 
   }
 
@@ -58,7 +58,7 @@ export default class Add extends React.Component {
           <label>Student Name: </label>
           <input type="text" name="name" onChange={this.changeHandler} />
           <label>Image URL: </label>
-          <input type="text" name="imgurl" onChange={this.changeHandler} />
+          <input type="text" name="imgurl" onChange={this.changeHandler}/>
           <button type="submit" value="Submit">Submit</button>
         </form>
         <h1>Preview:</h1>

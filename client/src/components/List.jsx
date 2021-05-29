@@ -3,9 +3,11 @@ import ListElement from './ListElement.jsx';
 
 const List = (props) =>
   <div>
-    {props.students.map(student => (
-      <ListElement student={student} key={student.id} getStudents={props.getStudents} />
+    {props.studentlist.map((student, index) => (
+      <ListElement student={student} key={index} getStudents={props.getStudents} />
     ))}
+
   </div>
+
 
 export default List;
